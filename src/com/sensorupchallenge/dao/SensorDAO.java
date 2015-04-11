@@ -64,8 +64,7 @@ public class SensorDAO {
         }, delay, period); 
 		
 		 timer ends*/
-		//sdfsfds
-		// testing coomit
+		// test
 	}
 	
 	public List<Sensor> getSensors() {
