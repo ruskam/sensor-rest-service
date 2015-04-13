@@ -14,7 +14,6 @@ public class SensorTemp implements Callable<Double>{
 		
 	}
 
-	@Override
 	public Double call() throws Exception {
 		random = new Random();
 		double temp = BODY_TEMP_MIN + (BODY_TEMP_MAX - BODY_TEMP_MIN) * random.nextDouble();

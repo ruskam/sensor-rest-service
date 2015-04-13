@@ -15,7 +15,6 @@ public class SensorHeart implements Callable<Integer>{
 		
 	}
 
-	@Override
 	public Integer call() throws Exception {
 		random = new Random();
 		// TODO Auto-generated method stub
