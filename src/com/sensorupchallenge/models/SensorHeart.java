@@ -1,6 +1,5 @@
 package com.sensorupchallenge.models;
 
-import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.Callable;
 

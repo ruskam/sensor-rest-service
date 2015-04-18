@@ -4,8 +4,7 @@ import com.sensorupchallenge.models.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -38,33 +37,7 @@ public class SensorDAO {
 			sensor.setId(idTemp);
 			sensors.add(sensor);
 		}
-		
-		/* timer starts
-		
-		TimerClass tc = new TimerClass();
-		System.out.println(tc.getNumber());
-		int delay = 1000;
-		int period = 1000;
-		
-		Timer timer = new Timer();
-		
-		timer.scheduleAtFixedRate(new TimerTask(){
-			int count = 0;
-			 
-            public void run() 
-            {
-            	++count;
-                System.out.println( "Action:" + count ); 
-                generateSensorValues();
-                         
-                //if(count == 5) 
-               //     System.exit(0);
-            } 
-                 
-        }, delay, period); 
-		
-		 timer ends*/
-		// test
+
 	}
 	
 	public List<Sensor> getSensors() {
@@ -83,17 +56,25 @@ public class SensorDAO {
 	}
 	
 	private void generateSensorValues(){
+		ExecutorService service =  Executors.newSingleThreadExecutor();
 		for (Sensor sensor : sensors) {
-			ExecutorService service =  Executors.newSingleThreadExecutor();
+			
 			SensorTemp sensorT = new SensorTemp();
 			SensorHeart sensorHR = new SensorHeart();
+			SensorLocation sensorLocation = new SensorLocation();
+			
 			Future<Double> futureTemp = service.submit(sensorT);
 			Future<Integer> futureHR = service.submit(sensorHR);
+			//Callable<Location> location = new Callable<Location>();
+			Future<Location> futureSL = service.submit(sensorLocation);
+			
 			Double tempValue = null;
 			Integer hrValue = null;
+			Location locationValues = null;
 			try {
 				tempValue = futureTemp.get();
 				hrValue = futureHR.get();
+				locationValues = futureSL.get();
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -102,6 +83,7 @@ public class SensorDAO {
 				e.printStackTrace();
 			}
 			
+			sensor.setLocation(locationValues);
 			sensor.setTemp(round(tempValue, 1));
 			sensor.setHeartRate(hrValue);
 			
