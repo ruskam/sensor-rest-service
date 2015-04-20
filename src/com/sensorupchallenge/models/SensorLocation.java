@@ -31,13 +31,15 @@ public class SensorLocation implements Callable<Location>{
 	private int tempN = 0;
 	private int tempE = 0;
 
-	private int wrongN = 0;
-	private int wrongE = 0;
+	private int wrongLat = 0;
+	private int wrongLng = 0;
 
-	private int previousN = 0;
-	private int previousE = 0;
+	private int prevN, prevE;
+	
+	private static double previousLat = 0;
+	private static double previousLng = 0;
 
-	Location location;
+	Location location, location1;
 	
 	public SensorLocation() {
 	};
@@ -48,43 +50,90 @@ public class SensorLocation implements Callable<Location>{
 		int x = 0;
 		while (true) {
 			x++;
-			tempE = random.nextInt((MAX_LONG - MIN_LONG) + 1) + MIN_LONG;
-			tempN = random.nextInt((MAX_LAT - MIN_LAT) + 1) + MIN_LAT;
-			/**
-			if (previousN == 0 && previousE == 0) {
+			//tempE = random.nextInt((MAX_LONG - MIN_LONG) + 1) + MIN_LONG;
+			//tempN = random.nextInt((MAX_LAT - MIN_LAT) + 1) + MIN_LAT;
+			
+			if (previousLat == 0 && previousLng == 0) {
+				System.out.println("no previous");
 				tempE = random.nextInt((MAX_LONG - MIN_LONG) + 1) + MIN_LONG;
 				tempN = random.nextInt((MAX_LAT - MIN_LAT) + 1) + MIN_LAT;
-				System.out.println("no previous");
+				
 			} else {
-				tempE = random.nextInt(((previousE + 3) - previousE) + 1)
-						+ previousE;
-				tempN = random.nextInt(((previousN + 3) - previousN) + 1)
-						+ previousN;
-				System.out.println("there are previous");
+				System.out.println("there is previous location");
+				LatLng prevLatLng = new LatLng(previousLat, previousLng);
+				prevN = (int)prevLatLng.toUTMRef().getNorthing();
+				prevE = (int)prevLatLng.toUTMRef().getEasting();
+				
+				tempE = random.nextInt(((prevE + 3) - (prevE - 3)) + 1)
+						+ (prevE - 3);
+				
+				tempN = random.nextInt(((prevN + 3) - (prevN-3)) + 1)
+						+ (prevN - 3);
 			}
-			 */
-			previousE = tempE;
-			previousN = tempN;
+			
+			
 			if (Math.pow(tempE - CICLE_Center_Easting, 2)
 					+ Math.pow(tempN - CICLE_Center_Northing, 2) < Math.pow(
 					RADIUS, 2)) {
-
+				
+				
+				
+				// distance check begin
+				UTMRef prevUTM = new UTMRef(previousLng, previousLat, zoneNam, zoneNum);
+				double latPrev = prevUTM.toLatLng().getLat();
+				double lngPrev = prevUTM.toLatLng().getLng();
+				System.out.println("prev:" + latPrev + ", " + lngPrev);
+				
+				UTMRef currUTM = new UTMRef(tempE, tempN, zoneNam, zoneNum);
+				double latCurr = currUTM.toLatLng().getLat();
+				double lngCurr = currUTM.toLatLng().getLng();
+				System.out.println("curr" + latCurr + ", " + lngCurr);
+				
+				LatLng latLngPrev = new LatLng(latPrev, lngPrev);
+				LatLng latLngCurr = new LatLng(latCurr, lngCurr);
+				
+				System.out.println("distance between previous and current: " + latLngCurr.distance(latLngPrev) * 1000);
+				System.out.println("distance between previous and current FORMULA: " 
+						+ Math.sqrt(Math.pow((prevN - tempN), 2) + Math.pow((prevE - tempE), 2)));
+				//distance check end
+				
+				
+				//previousE = tempE;
+				//previousN = tempN;
+				
 				System.out.println("found");
 				break;
 			} else {
-				UTMRef tempUTM = new UTMRef(tempE, tempN, zoneNam, zoneNum);
-				System.out.println("wrong lat:" + tempUTM.toLatLng().getLat());
-				System.out.println("wrong lng:" + tempUTM.toLatLng().getLng());
+				//UTMRef tempUTM = new UTMRef(tempE, tempN, zoneNam, zoneNum);
+				System.out.println("generating new coordinates...");
+				//System.out.println("wrong lat:" + tempUTM.toLatLng().getLat());
+				//System.out.println("wrong lng:" + tempUTM.toLatLng().getLng());
+				
 			}
 
 		}
-		UTMRef tempUTM = new UTMRef(tempE, tempN, zoneNam, zoneNum);
-		double latTemp = tempUTM.toLatLng().getLat();
-		double lngTemp = tempUTM.toLatLng().getLng();
-		location = new Location(round(lngTemp, 6), round(latTemp,6));
-
+		/*
+		UTMRef prevUTM = new UTMRef(previousE, previousN, zoneNam, zoneNum);
+		double latPrev = prevUTM.toLatLng().getLat();
+		double lngPrev = prevUTM.toLatLng().getLng();
+		*/
+		
+		UTMRef currUTM = new UTMRef(tempE, tempN, zoneNam, zoneNum);
+		double latCurr = currUTM.toLatLng().getLat();
+		double lngCurr = currUTM.toLatLng().getLng();
+		location = new Location(round(lngCurr, 6), round(latCurr,6));
+		
+		System.out.println("returned location :" + round(lngCurr, 6) + ", " + round(latCurr,6));
+		
+		
 		return location;
 	}
+	
+	public void setPreviousLocation(double lat, double lng){
+		previousLat = lat;
+		previousLng = lng;
+	}
+
 	
 	private double round(double value, int places) {
 	    if (places < 0) {

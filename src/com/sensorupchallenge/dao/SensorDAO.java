@@ -65,7 +65,6 @@ public class SensorDAO {
 			
 			Future<Double> futureTemp = service.submit(sensorT);
 			Future<Integer> futureHR = service.submit(sensorHR);
-			//Callable<Location> location = new Callable<Location>();
 			Future<Location> futureSL = service.submit(sensorLocation);
 			
 			Double tempValue = null;
@@ -75,6 +74,9 @@ public class SensorDAO {
 				tempValue = futureTemp.get();
 				hrValue = futureHR.get();
 				locationValues = futureSL.get();
+				
+				sensorLocation.setPreviousLocation(locationValues.getY(), locationValues.getX());
+				
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
