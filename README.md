@@ -12,7 +12,8 @@ The DAO package contains only one class, SensorDAO.java which is responsible for
 
 The SensorController.java (Controllers package) uses Spring MVC controllers to handle GET requests. It allows to request data for all sensors ("/service/sensor") or get a sensor by its ID ("/{rfid}").
 
-This app is purely server-side application.
+This app is purely server-side application. The services are availabel at the following URLs: http://localhost:8080/sensor-rest-service/service/sensor and
+http://localhost:8080/sensor-rest-service/service/sensor/id{sensor id 001 - 100}
 
 #### Service publishing values of all sensors
 ![services1](https://cloud.githubusercontent.com/assets/7506777/7259422/71b3cae4-e820-11e4-9137-a9fbc6cd6da0.png)
