@@ -14,9 +14,9 @@ The SensorController.java (Controllers package) uses Spring MVC controllers to h
 
 This app is purely server-side application. 
 
-#### Service publishing values of all sensors (http://localhost:8080/sensor-rest-service/service/sensor)
+#### Service publishing values of all sensors (http://HOST/sensor-rest-service/service/sensor)
 ![services1](https://cloud.githubusercontent.com/assets/7506777/7259422/71b3cae4-e820-11e4-9137-a9fbc6cd6da0.png)
 
-#### Service publishing values of one sensor (http://localhost:8080/sensor-rest-service/service/sensor/id{sensor id 001 - 100})
+#### Service publishing values of one sensor (http://HOST/sensor-rest-service/service/sensor/id{sensor id 001 - 100})
 ![services2](https://cloud.githubusercontent.com/assets/7506777/7259423/71cb755e-e820-11e4-9246-a0a208b31577.png)
 
