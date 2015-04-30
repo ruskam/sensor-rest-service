@@ -9,12 +9,23 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sensorupchallenge.dao.SensorDAO;
 import com.sensorupchallenge.models.Sensor;
 
+/**
+ * 
+ *
+ */
+/**
+ * @author 
+ *
+ */
 @RestController
 @RequestMapping("/service/sensor")
 public class SensorController {
 		
 	SensorDAO sensors = new SensorDAO(100);
 	
+	/**
+	 * @return
+	 */
 	@RequestMapping(method = RequestMethod.GET, headers = "Accept=application/json")
 	public List<Sensor> getAllSensors() {
 		List<Sensor> sensorsLocal = sensors.getSensors(); 

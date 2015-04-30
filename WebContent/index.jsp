@@ -7,9 +7,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-	This project serves a REST web service availabel at </br>
-	http://localhost:8080/sensor-rest-service/service/sensor </br>
-	or </br>
+	This project serves a REST web service availabel at <br>
+	http://localhost:8080/sensor-rest-service/service/sensor <br>
+	or <br>
 	http://localhost:8080/sensor-rest-service/service/sensor/idxxx 
 </body>
 </html>

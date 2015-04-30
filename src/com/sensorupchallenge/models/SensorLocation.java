@@ -12,8 +12,6 @@ public class SensorLocation implements Callable<Location>{
 	Random random;
 	private final double RADIUS = 70;
 
-	private final double CICLE_Center_LONG = -114.05191;
-	private final double CIRCLE_CENTER_LAT = 51.03743;
 	private final int CICLE_Center_Easting = 706681;
 	private final int CICLE_Center_Northing = 5658123;
 
@@ -31,9 +29,6 @@ public class SensorLocation implements Callable<Location>{
 	private int tempN = 0;
 	private int tempE = 0;
 
-	private int wrongLat = 0;
-	private int wrongLng = 0;
-
 	private int prevN, prevE;
 	
 	private static double previousLat = 0;
@@ -47,9 +42,9 @@ public class SensorLocation implements Callable<Location>{
 	public Location call() throws Exception {
 
 		random = new Random();
-		int x = 0;
+		
 		while (true) {
-			x++;
+			
 			//tempE = random.nextInt((MAX_LONG - MIN_LONG) + 1) + MIN_LONG;
 			//tempN = random.nextInt((MAX_LAT - MIN_LAT) + 1) + MIN_LAT;
 			
