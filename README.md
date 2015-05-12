@@ -1,5 +1,7 @@
 Sensor-Up Challenge: REST web service application
 ================
+The web service simulates sensor data of 100 dogs released in an open area. Every dog has a sensor which is assumed to read the heart rate, its location and body temperature. The web serice publish the sensor data as a REST web service at a given URL. The client application (http://162.246.156.21/sensor-rest-consumer) consumes the data abd visualise on the map.
+
 The application is implemented using Spring Boot and Spring libraries for REST web services. 
 
 There are four packages, namely *.app, *.controllers, *.dao and *.models.
